@@ -1,0 +1,28 @@
+{
+  "name": "base-auth-sdk",
+  "version": "1.0.0",
+  "description": "base-auth-sdk =========",
+  "private": true,
+  "scripts": {
+    "build_staging": "webpack --mode production --env staging",
+    "build_dev": "webpack --mode development --env development --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitclave/base-auth-sdk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/bitclave/base-auth-sdk/issues"
+  },
+  "homepage": "https://github.com/bitclave/base-auth-sdk#readme",
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.13"
+  },
+  "dependencies": {
+    "uuid": "^3.2.1"
+  }
+}
