@@ -5,7 +5,7 @@ module.exports = (env) => (
         entry: './src/sdk.js',
         output: {
             path: path.join(__dirname, 'dist'),
-            filename: 'sdk.js',
+            filename: 'BASEAuthSDK.js',
             library: 'BASEAuthSDK',
             libraryTarget: 'umd2',
             umdNamedDefine: true,
