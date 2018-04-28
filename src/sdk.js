@@ -3,6 +3,7 @@ import Settings from 'settings';
 
 export class Widget {
     constructor(options) {
+        this._settings = new Settings(options);
         this._widgetIframe = null;
         this._widgetRpc = null;
         this._baseNodeApi = null;
@@ -13,24 +14,20 @@ export class Widget {
         }
     }
 
-    get baseNodeAPI() {
-        return this._baseNodeApi;
-    }
-
     insertLoginButton(cssSelector) {
         const iframe = document.createElement('iframe');
-        iframe.src = Settings.widgetUrl() + Settings.widgetLocation();
+        iframe.src = this._settings.widgetUrl + this._settings.widgetLocation;
         iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
         const el = document.querySelector(cssSelector);
         el.appendChild(iframe);
         this._widgetIframe = iframe;
 
-        this._widgetRpc = new IFrameRPC(this._widgetIframe.contentWindow, Settings.widgetUrl());
+        this._widgetRpc = new IFrameRPC(this._widgetIframe.contentWindow, this._settings.widgetUrl);
         this._widgetRpc.once('handshake').then(rpcCall => {
             rpcCall.respond(
                 this._widgetIframe.contentWindow,
-                Settings.widgetUrl(),
+                this._settings.widgetUrl,
                 {verificationMessage: this._verificationMessage}
             );
             this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
@@ -42,6 +39,18 @@ export class Widget {
             const account = rpcCall.args[0];
             return account;
         });
+    }
+
+    getAllOffers() {
+        return this._baseNodeApi.getAllOffers();
+    }
+
+    getData() {
+        return this._baseNodeApi.getData();
+    }
+
+    updateData(data) {
+        return this._baseNodeApi.updateData(data);
     }
 }
 
