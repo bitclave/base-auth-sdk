@@ -1,0 +1,14 @@
+{
+    "root": "dist/",
+    "https_only": true,
+    "routes": {
+    },
+    "headers": {
+        "/": {
+            "Cache-Control": "no-store, no-cache"
+        },
+        "**.js": {
+            "Cache-Control": "public, max-age=900"
+        }
+    }
+}
