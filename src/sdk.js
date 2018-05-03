@@ -1,6 +1,11 @@
 import IFrameRPC from './core/IFrameRPC.js';
 import Settings from 'settings';
 
+export const UserPermissions = {
+    EMAIL: 'email',
+    WEALTH: 'wealth',
+};
+
 export class Widget {
     constructor(options) {
         this._settings = new Settings(options);
@@ -8,6 +13,7 @@ export class Widget {
         this._widgetRpc = null;
         this._baseNodeApi = null;
         this._verificationMessage = options.verificationMessage;
+        this._userPermissions = options.userPermissions || [];
 
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
@@ -28,7 +34,10 @@ export class Widget {
             rpcCall.respond(
                 this._widgetIframe.contentWindow,
                 this._settings.widgetUrl,
-                {verificationMessage: this._verificationMessage}
+                {
+                    verificationMessage: this._verificationMessage,
+                    userPermissions: this._userPermissions,
+                }
             );
             this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
         });
