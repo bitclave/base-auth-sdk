@@ -22,6 +22,7 @@ export class Widget {
 
     insertLoginButton(cssSelector) {
         const iframe = document.createElement('iframe');
+        iframe.frameBorder = '0';
         iframe.src = this._settings.widgetUrl + this._settings.widgetLocation;
         iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
