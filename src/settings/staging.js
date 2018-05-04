@@ -1,7 +1,7 @@
 export default class Settings {
     constructor(options) {
         options = options || {};
-        this._widgetUrl = options.widgetUrl || 'https://base-auth-staging.herokuapp.com/';
+        this._widgetUrl = options.widgetUrl || 'https://base-auth-frontend-staging.herokuapp.com/';
         this._widgetLocation = 'auth-widget';
 
         if (this._widgetUrl[this._widgetUrl.length - 1] !== '/') {
