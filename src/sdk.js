@@ -3,7 +3,6 @@ import Settings from 'settings';
 
 export const UserPermissions = {
     EMAIL: 'email',
-    WEALTH: 'wealth',
 };
 
 export class Widget {
@@ -13,7 +12,7 @@ export class Widget {
         this._widgetRpc = null;
         this._baseNodeApi = null;
         this._verificationMessage = options.verificationMessage;
-        this._userPermissions = options.userPermissions || [];
+        this._isLoggedIn = false;
 
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
@@ -33,23 +32,31 @@ export class Widget {
         this._widgetIframe = iframe;
 
         this._widgetRpc = new IFrameRPC(this._widgetIframe.contentWindow, this._settings.widgetUrl);
-        this._widgetRpc.once('handshake').then(rpcCall => {
+        this._widgetRpc.once('RPC.handshake').then(rpcCall => {
             rpcCall.respond(
                 this._widgetIframe.contentWindow,
                 this._settings.widgetUrl,
-                {
-                    verificationMessage: this._verificationMessage,
-                    userPermissions: this._userPermissions,
-                }
+                {verificationMessage: this._verificationMessage}
             );
             this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
         });
     }
 
     waitForLogin() {
-        return this._widgetRpc.once('onLogin').then(function (rpcCall) {
+        return this._widgetRpc.once('SDK.onLogin').then(function (rpcCall) {
+            this._isLoggedIn = true;
             const account = rpcCall.args[0];
             return account;
+        }.bind(this));
+    }
+
+    requestPermissions(permissions) {
+        if (!this._isLoggedIn) {
+            throw new Error('Not authorized');
+        }
+
+        return this._widgetRpc.call('SDK.requestPermissions', [permissions]).then(function (response) {
+            return response.value;
         });
     }
 
@@ -72,14 +79,26 @@ class BASENodeAPI {
     }
 
     getAllOffers () {
+        if (!this._isLoggedIn) {
+            throw new Error('Not authorized');
+        }
+
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
     }
 
     getData() {
+        if (!this._isLoggedIn) {
+            throw new Error('Not authorized');
+        }
+
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
 
     updateData(data) {
+        if (!this._isLoggedIn) {
+            throw new Error('Not authorized');
+        }
+
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
     }
 }
