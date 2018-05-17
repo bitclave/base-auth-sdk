@@ -79,26 +79,14 @@ class BASENodeAPI {
     }
 
     getAllOffers () {
-        if (!this._isLoggedIn) {
-            throw new Error('Not authorized');
-        }
-
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
     }
 
     getData() {
-        if (!this._isLoggedIn) {
-            throw new Error('Not authorized');
-        }
-
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
 
     updateData(data) {
-        if (!this._isLoggedIn) {
-            throw new Error('Not authorized');
-        }
-
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
     }
 }
