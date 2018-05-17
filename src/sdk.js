@@ -12,7 +12,6 @@ export class Widget {
         this._widgetRpc = null;
         this._baseNodeApi = null;
         this._verificationMessage = options.verificationMessage;
-        this._isLoggedIn = false;
 
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
@@ -44,17 +43,12 @@ export class Widget {
 
     waitForLogin() {
         return this._widgetRpc.once('SDK.onLogin').then(function (rpcCall) {
-            this._isLoggedIn = true;
             const account = rpcCall.args[0];
             return account;
         }.bind(this));
     }
 
     requestPermissions(permissions) {
-        if (!this._isLoggedIn) {
-            throw new Error('Not authorized');
-        }
-
         return this._widgetRpc.call('SDK.requestPermissions', [permissions]).then(function (response) {
             return response.value;
         });
