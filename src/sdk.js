@@ -54,6 +54,10 @@ export class Widget {
         });
     }
 
+    openDashboard(permissions) {
+        return this._widgetRpc.call('SDK.openDashboard', []);
+    }
+
     getAllOffers() {
         return this._baseNodeApi.getAllOffers();
     }
