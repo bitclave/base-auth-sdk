@@ -48,6 +48,11 @@ export class Widget {
         }.bind(this));
     }
 
+    waitForLogout() {
+        return this._widgetRpc.once('SDK.onLogout').then(function (rpcCall) {
+            return null;
+        }.bind(this));
+    }
     requestPermissions(permissions) {
         return this._widgetRpc.call('SDK.requestPermissions', [permissions]).then(function (response) {
             return response.value;
