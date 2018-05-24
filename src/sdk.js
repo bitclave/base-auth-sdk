@@ -42,6 +42,7 @@ export class Widget {
     }
 
     waitForLogin() {
+        console.warning('"waitForLogin" is deprecated, use "listenForLogin"');
         return this._widgetRpc.once('SDK.onLogin').then(function (rpcCall) {
             const account = rpcCall.args[0];
             return account;
@@ -49,10 +50,35 @@ export class Widget {
     }
 
     waitForLogout() {
+        console.warning('"waitForLogout" is deprecated, use "listenForLogout"');
         return this._widgetRpc.once('SDK.onLogout').then(function (rpcCall) {
             return null;
         }.bind(this));
     }
+
+    listenForLogin(handler) {
+        this._widgetRpc.listen('SDK.onLogin', function (rpcCall) {
+            const account = rpcCall.args[0];
+            handler(account);
+            rpcCall.respond(
+                this._widgetIframe.contentWindow,
+                this._settings.widgetUrl,
+                null
+            );
+        }));
+    }
+
+    listenForLogout(handler) {
+        this._widgetRpc.listen('SDK.onLogout', function (rpcCall) {
+            handler();
+            rpcCall.respond(
+                this._widgetIframe.contentWindow,
+                this._settings.widgetUrl,
+                null
+            );
+        }));
+    }
+
     requestPermissions(permissions) {
         return this._widgetRpc.call('SDK.requestPermissions', [permissions]).then(function (response) {
             return response.value;
