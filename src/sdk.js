@@ -65,7 +65,7 @@ export class Widget {
                 this._settings.widgetUrl,
                 null
             );
-        }));
+        });
     }
 
     listenForLogout(handler) {
@@ -76,7 +76,7 @@ export class Widget {
                 this._settings.widgetUrl,
                 null
             );
-        }));
+        });
     }
 
     requestPermissions(permissions) {
