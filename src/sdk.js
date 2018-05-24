@@ -54,7 +54,7 @@ export class Widget {
         });
     }
 
-    openDashboard(permissions) {
+    openDashboard() {
         return this._widgetRpc.call('SDK.openDashboard', []);
     }
 
