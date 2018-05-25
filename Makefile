@@ -1,8 +1,5 @@
-npm_postinstall:
-	$(MAKE) build_js_prod
-
 build_js_prod:
-	NODE_ENV=prod npm run build
+	NODE_ENV=production npm run build
 
 build_js_staging:
 	NODE_ENV=staging npm run build

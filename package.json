@@ -4,7 +4,7 @@
   "description": "base-auth-sdk =========",
   "private": true,
   "scripts": {
-    "postinstall": "make npm_postinstall",
+    "postinstall": "npm run build",
     "build": "webpack --mode production --env $NODE_ENV",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
