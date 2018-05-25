@@ -2,13 +2,13 @@ npm_postinstall:
 	$(MAKE) build_js_prod
 
 build_js_prod:
-	NODE_ENV=prod $(MAKE) build
+	NODE_ENV=prod npm run build
 
 build_js_staging:
-	NODE_ENV=staging $(MAKE) build
+	NODE_ENV=staging npm run build
 
 build_js_dev:
-	NODE_ENV=dev $(MAKE) build
+	NODE_ENV=dev npm run build
 
 deploy_prod:
 	git push heroku_prod -f HEAD:master
