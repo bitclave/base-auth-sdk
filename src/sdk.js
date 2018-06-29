@@ -92,6 +92,13 @@ export class Widget {
         return this._baseNodeApi.getAllOffers();
     }
 
+    deleteAccount() {
+        return this._baseNodeApi.deleteAccount();
+    }
+    logout() {
+      return this._baseNodeApi.logout();
+    }
+
     getData() {
         return this._baseNodeApi.getData();
     }
@@ -108,6 +115,13 @@ class BASENodeAPI {
 
     getAllOffers () {
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
+    }
+
+    deleteAccount () {
+        return this._widgetRpc.call('accountManager.unsubscribe', []).then(response => response.value);
+    }
+    logout () {
+        return this._widgetRpc.call('logout', []);
     }
 
     getData() {
