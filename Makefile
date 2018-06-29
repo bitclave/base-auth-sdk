@@ -5,7 +5,7 @@ build_js_staging:
 	NODE_ENV=staging npm run build
 
 build_js_dev:
-	NODE_ENV=dev npm run build
+	NODE_ENV=development npm run build
 
 deploy_prod:
 	git push heroku_prod -f HEAD:master
