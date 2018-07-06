@@ -106,6 +106,22 @@ export class Widget {
     updateData(data) {
         return this._baseNodeApi.updateData(data);
     }
+
+    addWealthValidator(data) {
+        return this._baseNodeApi.addWealthValidator(data);
+    }
+    createWalletsRecords(data, baseID) {
+        return this._baseNodeApi.createWalletsRecords(data, baseID);
+    }
+    refreshWealthPtr() {
+        return this._baseNodeApi.refreshWealthPtr();
+    }
+    getRequests(fromPk, toPk) {
+        return this._baseNodeApi.getRequests(fromPk, toPk);
+    }
+    getAuthorizedData(recipientPk, encryptedData) {
+        return this._baseNodeApi.getAuthorizedData(recipientPk, encryptedData);
+    }
 }
 
 class BASENodeAPI {
@@ -130,5 +146,21 @@ class BASENodeAPI {
 
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
+    }
+
+    addWealthValidator(data) {
+        return this._widgetRpc.call('walletManager.addWealthValidator', [data]).then(response => response.value);
+    }
+    createWalletsRecords(data, BaseId) {
+      return this._widgetRpc.call('walletManager.createWalletsRecords', [data, BaseId]).then(response => response.value);
+    }
+    refreshWealthPtr() {
+      return this._widgetRpc.call('walletManager.refreshWealthPtr', []).then(response => response.value);
+    }
+    getRequests(fromPk, toPk) {
+      return this._widgetRpc.call('dataRequestManager.getRequests',[fromPk, toPk]).then(response => response.value);
+    }
+    getAuthorizedData(recipientPk, encryptedData) {
+      return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
     }
 }
