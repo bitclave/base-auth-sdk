@@ -155,7 +155,13 @@ class BASENodeAPI {
       return this._widgetRpc.call('walletManager.createWalletsRecords', [data, BaseId]).then(response => response.value);
     }
     refreshWealthPtr() {
-      return this._widgetRpc.call('walletManager.refreshWealthPtr', []).then(response => response.value);
+      return this._widgetRpc.call('walletManager.refreshWealthPtr', []).then(response => {
+        const pointer = response.value;
+        if ( typeof pointer === 'string' && pointer === 'validator did not verify anything yet'){
+          throw new Error('validator did not verify anything yet');
+        }
+        return pointer
+      });
     }
     getRequests(fromPk, toPk) {
       return this._widgetRpc.call('dataRequestManager.getRequests',[fromPk, toPk]).then(response => response.value);
