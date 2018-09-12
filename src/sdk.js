@@ -88,33 +88,57 @@ export class Widget {
         return this._widgetRpc.call('SDK.openDashboard', []);
     }
 
+    // offers CRUD
+
     getAllOffers() {
         return this._baseNodeApi.getAllOffers();
     }
+    getMyOffers(id) {
+        return this._baseNodeApi.getMyOffers(id);
+    }
+    saveOffer(offer) {
+        return this._baseNodeApi.saveOffer(offer);
+    }
+    deleteOffer(id) {
+      return this._baseNodeApi.deleteOffer(id);
+    }
+
 
     getData() {
         return this._baseNodeApi.getData();
     }
-
     updateData(data) {
         return this._baseNodeApi.updateData(data);
     }
 }
 
 class BASENodeAPI {
-    constructor(widgetRpc) {
+
+  constructor(widgetRpc) {
         this._widgetRpc = widgetRpc;
     }
+
+    // offers CRUD
 
     getAllOffers () {
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
     }
+    getMyOffers (id) {
+      return this._widgetRpc.call('offerManager.getOfferById', [id]).then(response => response.value);
+    }
+    saveOffer (offer) {
+      return this._widgetRpc.call('offerManager.saveOffer', [offer]).then(response => response.value);
+    }
+    deleteOffer (id) {
+      return this._widgetRpc.call('offerManager.deleteOffer', [id]).then(response => response.value);
+    }
+
 
     getData() {
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
-
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
     }
 }
+
