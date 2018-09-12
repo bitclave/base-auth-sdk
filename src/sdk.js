@@ -92,10 +92,24 @@ export class Widget {
         return this._baseNodeApi.getAllOffers();
     }
 
+    // Search request
+
+    createRequest (searchRequest) {
+        return this._baseNodeApi.createRequest(searchRequest);
+    }
+    getMyRequests (id) {
+        return this._baseNodeApi.getMyRequests(id);
+    }
+    getAllRequests () {
+        return this._baseNodeApi.getAllRequests();
+    }
+    deleteRequest (id) {
+        return this._baseNodeApi.deleteRequest(id);
+    }
+
     getData() {
         return this._baseNodeApi.getData();
     }
-
     updateData(data) {
         return this._baseNodeApi.updateData(data);
     }
@@ -110,10 +124,25 @@ class BASENodeAPI {
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
     }
 
+    // Search request
+
+    createRequest (searchRequest) {
+        return this._widgetRpc.call('searchManager.createRequest', [searchRequest]).then(response => response.value);
+    }
+    getMyRequests (id) {
+        return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
+    }
+    getAllRequests () {
+        return this._widgetRpc.call('searchManager.getMyRequests', []).then(response => response.value);
+    }
+    deleteRequest (id) {
+        return this._widgetRpc.call('searchManager.deleteRequest', [id]).then(response => response.value);
+    }
+
+
     getData() {
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
-
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
     }
