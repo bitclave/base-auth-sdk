@@ -88,8 +88,8 @@ export class Widget {
         return this._widgetRpc.call('SDK.openDashboard', []);
     }
 
-    // offers CRUD
 
+    // offers CRUD
     getAllOffers() {
         return this._baseNodeApi.getAllOffers();
     }
@@ -105,7 +105,6 @@ export class Widget {
 
 
     // Search request
-
     createRequest (searchRequest) {
         return this._baseNodeApi.createRequest(searchRequest);
     }
@@ -119,6 +118,7 @@ export class Widget {
         return this._baseNodeApi.deleteRequest(id);
     }
 
+    // cusomer private data
     getData() {
         return this._baseNodeApi.getData();
     }
@@ -158,7 +158,7 @@ class BASENodeAPI {
         return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
     }
     getAllRequests () {
-        return this._widgetRpc.call('searchManager.getMyRequests', []).then(response => response.value);
+        return this._widgetRpc.call('searchManager.getAllRequests', []).then(response => response.value);
     }
     deleteRequest (id) {
         return this._widgetRpc.call('searchManager.deleteRequest', [id]).then(response => response.value);
