@@ -88,8 +88,19 @@ export class Widget {
         return this._widgetRpc.call('SDK.openDashboard', []);
     }
 
+
+    // offers CRUD
     getAllOffers() {
         return this._baseNodeApi.getAllOffers();
+    }
+    getMyOffers(id) {
+        return this._baseNodeApi.getMyOffers(id);
+    }
+    saveOffer(offer) {
+        return this._baseNodeApi.saveOffer(offer);
+    }
+    deleteOffer(id) {
+      return this._baseNodeApi.deleteOffer(id);
     }
 
     deleteAccount() {
@@ -99,10 +110,25 @@ export class Widget {
       return this._baseNodeApi.logout();
     }
 
+
+    // Search request
+    createRequest (searchRequest) {
+        return this._baseNodeApi.createRequest(searchRequest);
+    }
+    getMyRequests (id) {
+        return this._baseNodeApi.getMyRequests(id);
+    }
+    getAllRequests () {
+        return this._baseNodeApi.getAllRequests();
+    }
+    deleteRequest (id) {
+        return this._baseNodeApi.deleteRequest(id);
+    }
+
+    // cusomer private data
     getData() {
         return this._baseNodeApi.getData();
     }
-
     updateData(data) {
         return this._baseNodeApi.updateData(data);
     }
@@ -125,13 +151,42 @@ export class Widget {
 }
 
 class BASENodeAPI {
-    constructor(widgetRpc) {
+
+  constructor(widgetRpc) {
         this._widgetRpc = widgetRpc;
     }
+
+    // offers CRUD
 
     getAllOffers () {
         return this._widgetRpc.call('offerManager.getAllOffers', []).then(response => response.value);
     }
+    getMyOffers (id) {
+      return this._widgetRpc.call('offerManager.getOfferById', [id]).then(response => response.value);
+    }
+    saveOffer (offer) {
+      return this._widgetRpc.call('offerManager.saveOffer', [offer]).then(response => response.value);
+    }
+    deleteOffer (id) {
+      return this._widgetRpc.call('offerManager.deleteOffer', [id]).then(response => response.value);
+    }
+
+
+    // Search request
+
+    createRequest (searchRequest) {
+        return this._widgetRpc.call('searchManager.createRequest', [searchRequest]).then(response => response.value);
+    }
+    getMyRequests (id) {
+        return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
+    }
+    getAllRequests () {
+        return this._widgetRpc.call('searchManager.getAllRequests', []).then(response => response.value);
+    }
+    deleteRequest (id) {
+        return this._widgetRpc.call('searchManager.deleteRequest', [id]).then(response => response.value);
+    }
+
 
     deleteAccount () {
         return this._widgetRpc.call('accountManager.unsubscribe', []).then(response => response.value);
@@ -143,7 +198,6 @@ class BASENodeAPI {
     getData() {
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
-
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
     }
@@ -170,3 +224,4 @@ class BASENodeAPI {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
     }
 }
+
