@@ -119,11 +119,36 @@ export class Widget {
     }
 
     // cusomer private data
+
+    deleteAccount() {
+        return this._baseNodeApi.deleteAccount();
+    }
+    logout() {
+      return this._baseNodeApi.logout();
+    }
+
+
     getData() {
         return this._baseNodeApi.getData();
     }
     updateData(data) {
         return this._baseNodeApi.updateData(data);
+    }
+
+    addWealthValidator(data) {
+        return this._baseNodeApi.addWealthValidator(data);
+    }
+    createWalletsRecords(data, baseID) {
+        return this._baseNodeApi.createWalletsRecords(data, baseID);
+    }
+    refreshWealthPtr() {
+        return this._baseNodeApi.refreshWealthPtr();
+    }
+    getRequests(fromPk, toPk) {
+        return this._baseNodeApi.getRequests(fromPk, toPk);
+    }
+    getAuthorizedData(recipientPk, encryptedData) {
+        return this._baseNodeApi.getAuthorizedData(recipientPk, encryptedData);
     }
 }
 
@@ -165,11 +190,40 @@ class BASENodeAPI {
     }
 
 
+    deleteAccount () {
+        return this._widgetRpc.call('accountManager.unsubscribe', []).then(response => response.value);
+    }
+    logout () {
+        return this._widgetRpc.call('logout', []);
+    }
+
     getData() {
         return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
     }
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
+    }
+
+    addWealthValidator(data) {
+        return this._widgetRpc.call('walletManager.addWealthValidator', [data]).then(response => response.value);
+    }
+    createWalletsRecords(data, BaseId) {
+      return this._widgetRpc.call('walletManager.createWalletsRecords', [data, BaseId]).then(response => response.value);
+    }
+    refreshWealthPtr() {
+      return this._widgetRpc.call('walletManager.refreshWealthPtr', []).then(response => {
+        const pointer = response.value;
+        if ( typeof pointer === 'string' && pointer === 'validator did not verify anything yet'){
+          throw new Error('validator did not verify anything yet');
+        }
+        return pointer
+      });
+    }
+    getRequests(fromPk, toPk) {
+      return this._widgetRpc.call('dataRequestManager.getRequests',[fromPk, toPk]).then(response => response.value);
+    }
+    getAuthorizedData(recipientPk, encryptedData) {
+      return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
     }
 }
 
