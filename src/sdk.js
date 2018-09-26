@@ -118,6 +118,12 @@ export class Widget {
         return this._baseNodeApi.deleteRequest(id);
     }
 
+    // matched results
+    getSearchResultByRequestId(id) {
+        return this._baseNodeApi
+          .getSearchResultByRequestId(id);
+    }
+
     // cusomer private data
 
     deleteAccount() {
@@ -189,6 +195,12 @@ class BASENodeAPI {
         return this._widgetRpc.call('searchManager.deleteRequest', [id]).then(response => response.value);
     }
 
+    // matched offers and requests
+
+    getSearchResultByRequestId (id) {
+        return this._widgetRpc.call('searchManager.getSearchResult', [id]).then(response => response.value);
+    }
+
 
     deleteAccount () {
         return this._widgetRpc.call('accountManager.unsubscribe', []).then(response => response.value);
@@ -226,4 +238,3 @@ class BASENodeAPI {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
     }
 }
-
