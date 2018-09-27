@@ -118,10 +118,13 @@ export class Widget {
         return this._baseNodeApi.deleteRequest(id);
     }
 
-    // matched results
+    // get matched results
     getSearchResultByRequestId(id) {
         return this._baseNodeApi
           .getSearchResultByRequestId(id);
+    }
+    grantAccessForOffer(searchResultId, pk, fields, priceId) {
+      return this._baseNodeApi.grantAccessForOffer(searchResultId, pk, fields, priceId);
     }
 
     // cusomer private data
@@ -233,6 +236,9 @@ class BASENodeAPI {
     }
     getRequests(fromPk, toPk) {
       return this._widgetRpc.call('dataRequestManager.getRequests',[fromPk, toPk]).then(response => response.value);
+    }
+    grantAccessForOffer(searchResultId, pk, fields, priceId) {
+      return this._widgetRpc.call('dataRequestManager.grantAccessForOffer', [searchResultId, pk, fields, priceId]).then(response => response.value);
     }
     getAuthorizedData(recipientPk, encryptedData) {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
