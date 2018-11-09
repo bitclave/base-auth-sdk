@@ -159,6 +159,11 @@ export class Widget {
     getAuthorizedData(recipientPk, encryptedData) {
         return this._baseNodeApi.getAuthorizedData(recipientPk, encryptedData);
     }
+
+    // share data
+    grantAccessForClient(clientPk, acceptedFields) {
+      return this._baseNodeApi.grantAccessForClient(clientPk, acceptedFields);
+    }
 }
 
 class BASENodeAPI {
@@ -239,6 +244,12 @@ class BASENodeAPI {
     }
     grantAccessForOffer(searchResultId, pk, fields, priceId) {
       return this._widgetRpc.call('dataRequestManager.grantAccessForOffer', [searchResultId, pk, fields, priceId]).then(response => response.value);
+    }
+    // share data by PK and keys
+    grantAccessForClient (clientPk, acceptedFields) {
+      return this._widgetRpc
+        .call('dataRequestManager.grantAccessForClient', [clientPk, acceptedFields])
+        .then(response => response.value);
     }
     getAuthorizedData(recipientPk, encryptedData) {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
