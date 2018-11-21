@@ -171,6 +171,35 @@ export class Widget {
     grantAccessForClient(clientPk, acceptedFields) {
       return this._baseNodeApi.grantAccessForClient(clientPk, acceptedFields);
     }
+
+    
+    /**
+     * Returns list of fields requested for access by <me> from the client
+     */
+    getRequestedPermissionsByMeFromClient(requestedFromPk) {
+        return this._baseNodeApi.getRequestedPermissionsByMeFromClient(requestedFromPk);
+    }
+
+    /**
+     * Returns list of fields requested for access by the client from <me>
+     */
+    getRequestedPermissionsFromClientToMe(whoRequestedPk) {
+        return this._baseNodeApi.getRequestedPermissionsFromClientToMe(whoRequestedPk);
+    }
+
+    /**
+     * Returns list of fields that <client> authorized <me> to access
+     */
+    getGrantedPermissionsToMeFromClient(clientPk) {
+        return this._baseNodeApi.getGrantedPermissionsToMeFromClient(clientPk);
+    }
+
+    /**
+     * Returns list of fields that <me> authorized <client> to access
+     */
+    getGrantedPermissionsByMeToClient(clientPk) {
+        return this._baseNodeApi.getGrantedPermissionsByMeToClient(clientPk);
+    }
 }
 
 class BASENodeAPI {
@@ -260,5 +289,33 @@ class BASENodeAPI {
     }
     getAuthorizedData(recipientPk, encryptedData) {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
+    }
+
+    /**
+     * Returns list of fields requested for access by <me> from the client
+     */
+    getRequestedPermissionsByMeFromClient(requestedFromPk) {
+        return this._widgetRpc.call('dataRequestManager.getRequestedPermissions',[requestedFromPk]).then(response=>response.value);
+    }
+
+    /**
+     * Returns list of fields requested for access by the client from <me>
+     */
+    getRequestedPermissionsFromClientToMe(whoRequestedPk) {
+        return this._widgetRpc.call('dataRequestManager.getRequestedPermissionsToMe',[whoRequestedPk]).then(response=>response.value);
+    }
+
+    /**
+     * Returns list of fields that <client> authorized <me> to access
+     */
+    getGrantedPermissionsToMeFromClient(clientPk) {
+        return this._widgetRpc.call('dataRequestManager.getGrantedPermissions',[clientPk]).then(response=>response.value);
+    }
+
+    /**
+     * Returns list of fields that <me> authorized <client> to access
+     */
+    getGrantedPermissionsByMeToClient(clientPk) {
+        return this._widgetRpc.call('dataRequestManager.getGrantedPermissionsToMe',[clientPk]).then(response=>response.value);
     }
 }
