@@ -13,6 +13,7 @@ export class Widget {
         this._baseNodeApi = null;
         this._verificationMessage = options.verificationMessage;
         this._buttonStyle = options.buttonStyle;
+        this._isMnemonicScreen = (options.isMnemonicScreen === undefined || !! options.isMnemonicScreen);
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
         }
@@ -35,7 +36,10 @@ export class Widget {
             rpcCall.respond(
                 this._widgetIframe.contentWindow,
                 this._settings.widgetUrl,
-                {verificationMessage: this._verificationMessage, buttonStyle : this._buttonStyle}
+                { verificationMessage: this._verificationMessage,
+                  buttonStyle : this._buttonStyle,
+                  isMnemonicScreen: this._isMnemonicScreen
+                }
             );
             this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
         });
