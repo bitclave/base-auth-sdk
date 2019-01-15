@@ -18,6 +18,11 @@ export class Widget {
             throw new Error('Verification message length is 10 characters minimum');
         }
     }
+    openSignInProgrammatically(){
+        return this._widgetRpc.call('openSignIn').then(function (rpcCall) {
+            return null;
+        });
+    }
 
     insertLoginButton(cssSelector) {
         const iframe = document.createElement('iframe');
@@ -176,7 +181,7 @@ export class Widget {
       return this._baseNodeApi.grantAccessForClient(clientPk, acceptedFields);
     }
 
-    
+
     /**
      * Returns list of fields requested for access by <me> from the client
      */
