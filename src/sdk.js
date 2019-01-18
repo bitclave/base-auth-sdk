@@ -136,11 +136,23 @@ export class Widget {
 
     // get matched results
     getSearchResultByRequestId(id) {
-        return this._baseNodeApi
-          .getSearchResultByRequestId(id);
+        return this._baseNodeApi.getSearchResultByRequestId(id);
     }
     grantAccessForOffer(searchResultId, pk, fields, priceId) {
-      return this._baseNodeApi.grantAccessForOffer(searchResultId, pk, fields, priceId);
+        return this._baseNodeApi.grantAccessForOffer(searchResultId, pk, fields, priceId);
+    }
+
+    // reporitng feedback/action on SearchItem
+    complainOnSearchItem (id) {
+        return this._baseNodeApi.complainOnSearchItem(id)
+    }
+
+    rejectSearchItem (id) {
+        return this._baseNodeApi.rejectSearchItem(id)
+    }
+
+    evaluateSearchItem (id) {
+        return this._baseNodeApi.evaluateSearchItem(id)
     }
 
     // cusomer private data
@@ -252,6 +264,18 @@ class BASENodeAPI {
 
     getSearchResultByRequestId (id) {
         return this._widgetRpc.call('searchManager.getSearchResult', [id]).then(response => response.value);
+    }
+
+    complainOnSearchItem (id) {
+        return this._widgetRpc.call('searchManager.complainToSearchItem', [id]).then(response => response.value);
+    }
+
+    rejectSearchItem (id) {
+        return this._widgetRpc.call('searchManager.rejectSearchItem', [id]).then(response => response.value);
+    }
+
+    evaluateSearchItem (id) {
+        return this._widgetRpc.call('searchManager.evaluateSearchItem', [id]).then(response => response.value);
     }
 
 
