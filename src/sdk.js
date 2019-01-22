@@ -138,6 +138,9 @@ export class Widget {
     getSearchResultByRequestId(id) {
         return this._baseNodeApi.getSearchResultByRequestId(id);
     }
+    getSearchResultByRequestIdForNotAuthorized(id) {
+        return this._baseNodeApi.getSearchResultByRequestIdForNotAuthorized(id);
+    }
     grantAccessForOffer(searchResultId, pk, fields, priceId) {
         return this._baseNodeApi.grantAccessForOffer(searchResultId, pk, fields, priceId);
     }
@@ -153,6 +156,10 @@ export class Widget {
 
     evaluateSearchItem (id) {
         return this._baseNodeApi.evaluateSearchItem(id)
+    }
+
+    claimPurchaseForSearchItem (id) {
+        return this._baseNodeApi.claimPurchaseForSearchItem(id)
     }
 
     // cusomer private data
@@ -266,6 +273,10 @@ class BASENodeAPI {
         return this._widgetRpc.call('searchManager.getSearchResult', [id]).then(response => response.value);
     }
 
+    getSearchResultByRequestIdForNotAuthorized (id) {
+        return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
+    }
+
     complainOnSearchItem (id) {
         return this._widgetRpc.call('searchManager.complainToSearchItem', [id]).then(response => response.value);
     }
@@ -276,6 +287,10 @@ class BASENodeAPI {
 
     evaluateSearchItem (id) {
         return this._widgetRpc.call('searchManager.evaluateSearchItem', [id]).then(response => response.value);
+    }
+
+    claimPurchaseForSearchItem (id) {
+        return this._widgetRpc.call('searchManager.claimPurchaseForSearchItem', [id]).then(response => response.value);
     }
 
 

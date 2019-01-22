@@ -64,3 +64,10 @@ BASE Node methods
         });
 
 - `widget.baseNodeAPI.updateData({ key: "value" })`: Update user's data
+
+
+How to debug locally?
+-------------------------------------------
+- build for development: NODE_ENV=development npm run build
+- run locally: cd dist lite-server .
+-- assumes base-auth-frontened is running on localhost:4200
