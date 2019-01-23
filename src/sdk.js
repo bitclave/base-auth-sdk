@@ -141,6 +141,11 @@ export class Widget {
     getSearchResultByRequestIdForNotAuthorized(id) {
         return this._baseNodeApi.getSearchResultByRequestIdForNotAuthorized(id);
     }
+
+    addEventToOfferSearch(id) {
+        return this._baseNodeApi.addEventToOfferSearch(id);
+    }
+
     grantAccessForOffer(searchResultId, pk, fields, priceId) {
         return this._baseNodeApi.grantAccessForOffer(searchResultId, pk, fields, priceId);
     }
@@ -273,8 +278,8 @@ class BASENodeAPI {
         return this._widgetRpc.call('searchManager.getSearchResult', [id]).then(response => response.value);
     }
 
-    getSearchResultByRequestIdForNotAuthorized (id) {
-        return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
+    addEventToOfferSearch (id) {
+        return this._widgetRpc.call('searchManager.addEventToOfferSearch', [id]).then(response => response.value);
     }
 
     complainOnSearchItem (id) {
