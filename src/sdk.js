@@ -23,6 +23,11 @@ export class Widget {
             return null;
         });
     }
+    openSignUpProgrammatically(){
+        return this._widgetRpc.call('openSignUp').then(function (rpcCall) {
+            return null;
+        });
+    }
 
     insertLoginButton(cssSelector) {
         const iframe = document.createElement('iframe');
