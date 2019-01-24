@@ -381,6 +381,10 @@ class BASENodeAPI {
         return this._widgetRpc.call('dataRequestManager.getGrantedPermissions',[clientPk]).then(response=>response.value);
     }
 
+    getSearchResultByRequestIdForNotAuthorized (id) {
+      return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
+  }
+
     /**
      * Returns list of fields that <me> authorized <client> to access
      */
