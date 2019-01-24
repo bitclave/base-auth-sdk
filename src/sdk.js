@@ -63,6 +63,17 @@ export class Widget {
         }.bind(this));
     }
 
+    listenForInit(handler) {
+      this._widgetRpc.listen('SDK.onInit', function (rpcCall) {
+          handler(rpcCall.methodName);
+          rpcCall.respond(
+              this._widgetIframe.contentWindow,
+              this._settings.widgetUrl,
+              null
+          );
+      }.bind(this));
+  }
+
     waitForLogout() {
         console.warning('"waitForLogout" is deprecated, use "listenForLogout"');
         return this._widgetRpc.once('SDK.onLogout').then(function (rpcCall) {
