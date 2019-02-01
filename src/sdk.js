@@ -62,7 +62,7 @@ export class Widget {
             return account;
         }.bind(this));
     }
-
+    
     listenForInit(handler) {
       this._widgetRpc.listen('SDK.onInit', function (rpcCall) {
           handler(rpcCall.methodName);
@@ -72,7 +72,7 @@ export class Widget {
               null
           );
       }.bind(this));
-  }
+    }
 
     waitForLogout() {
         console.warning('"waitForLogout" is deprecated, use "listenForLogout"');
@@ -90,6 +90,19 @@ export class Widget {
                 this._settings.widgetUrl,
                 null
             );
+        }.bind(this));
+    }
+
+    refreshToken(){
+        return this._widgetRpc.call('refreshToken').then(function (rpcCall) {
+            return null;
+        });
+    }
+    
+    listenForRefreshToken(handler) {
+        return this._widgetRpc.listen('SDK.onRefreshToken', function (rpcCall) {
+            const token = rpcCall.args[0];
+            handler(token);            
         }.bind(this));
     }
 
