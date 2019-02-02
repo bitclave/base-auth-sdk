@@ -71,4 +71,4 @@ How to debug locally?
 - build for development: NODE_ENV=development npm run build
 - run locally: cd dist lite-server .
 -- assumes base-auth-frontened is running on localhost:4200
--- starts base-auth-sdk on port 3000. You need to point your application to http://localhost:3000/BASEAuthSDK.js
+-- starts base-auth-sdk on port 3000. You need to point your application to http://localhost:3000/BASEAuthSDK.js, usually in index.html
