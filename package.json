@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run build",
-    "build": "webpack --mode production --env $NODE_ENV",
+    "build": "webpack --mode  none --env $NODE_ENV",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
