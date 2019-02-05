@@ -265,6 +265,13 @@ export class Widget {
     getGrantedPermissionsByMeToClient(clientPk) {
         return this._baseNodeApi.getGrantedPermissionsByMeToClient(clientPk);
     }
+
+    /**
+     * Returns the OfferSearches with related Offers list of provided user.
+     */
+    getUserOfferSearches(clientPk) {
+        return this._baseNodeApi.getUserOfferSearches(clientPk);
+    }
 }
 
 class BASENodeAPI {
@@ -402,7 +409,11 @@ class BASENodeAPI {
 
     getSearchResultByRequestIdForNotAuthorized (id) {
       return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
-  }
+    }
+
+    getUserOfferSearches (clientPk) {
+      return this._widgetRpc.call('searchManager.getUserOfferSearches', [clientPk]).then(response => response.value);
+    }
 
     /**
      * Returns list of fields that <me> authorized <client> to access
