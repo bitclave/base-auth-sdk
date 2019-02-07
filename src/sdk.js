@@ -156,6 +156,9 @@ export class Widget {
     cloneRequest (searchRequest) {
         return this._baseNodeApi.cloneRequest(searchRequest);
     }
+    updateRequest (searchRequest) {
+        return this._baseNodeApi.updateRequest(searchRequest);
+    }
     getMyRequests (id) {
         return this._baseNodeApi.getMyRequests(id);
     }
@@ -303,6 +306,9 @@ class BASENodeAPI {
     }
     cloneRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.cloneRequest', [searchRequest]).then(response => response.value);
+    }
+    updateRequest (searchRequest) {
+        return this._widgetRpc.call('searchManager.updateRequest', [searchRequest]).then(response => response.value);
     }
     getMyRequests (id) {
         return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
