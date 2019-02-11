@@ -159,6 +159,9 @@ export class Widget {
     updateRequest (searchRequest) {
         return this._baseNodeApi.updateRequest(searchRequest);
     }
+    copyOffersSearchToRequest(id, searchRequest) {
+        return this._baseNodeApi.copyOffersSearchToRequest(id, searchRequest);
+    }
     getMyRequests (id) {
         return this._baseNodeApi.getMyRequests(id);
     }
@@ -309,6 +312,9 @@ class BASENodeAPI {
     }
     updateRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.updateRequest', [searchRequest]).then(response => response.value);
+    }
+    copyOffersSearchToRequest (id, searchRequest) {
+        return this._widgetRpc.call('searchManager.copyOffersSearchToRequest', [id, searchRequest]).then(response => response.value);
     }
     getMyRequests (id) {
         return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
