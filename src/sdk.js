@@ -154,7 +154,7 @@ export class Widget {
         return this._baseNodeApi.createRequest(searchRequest);
     }
     createRequestByQuery (query, searchRequestId) {
-        return this._baseNodeApi.createRequest(query, searchRequestId);
+        return this._baseNodeApi.createRequestByQuery(query, searchRequestId);
     }
     cloneRequest (searchRequest) {
         return this._baseNodeApi.cloneRequest(searchRequest);
