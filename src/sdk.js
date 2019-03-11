@@ -62,7 +62,7 @@ export class Widget {
             return account;
         }.bind(this));
     }
-    
+
     listenForInit(handler) {
       this._widgetRpc.listen('SDK.onInit', function (rpcCall) {
           handler(rpcCall.methodName);
@@ -98,11 +98,11 @@ export class Widget {
             return null;
         });
     }
-    
+
     listenForRefreshToken(handler) {
         return this._widgetRpc.listen('SDK.onRefreshToken', function (rpcCall) {
             const token = rpcCall.args[0];
-            handler(token);            
+            handler(token);
         }.bind(this));
     }
 
@@ -153,8 +153,8 @@ export class Widget {
     createRequest (searchRequest) {
         return this._baseNodeApi.createRequest(searchRequest);
     }
-    createSearchResultByQuery (query, searchRequestId) {
-        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId);
+    createSearchResultByQuery (query, searchRequestId, page, size) {
+        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size);
     }
     cloneRequest (searchRequest) {
         return this._baseNodeApi.cloneRequest(searchRequest);
@@ -309,8 +309,9 @@ class BASENodeAPI {
     createRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.createRequest', [searchRequest]).then(response => response.value);
     }
-    createSearchResultByQuery (query, searchRequestId) {
-        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId]).then(response => response.value);
+    createSearchResultByQuery (query, searchRequestId, page, size) {
+        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size])
+            .then(response => response.value);
     }
     cloneRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.cloneRequest', [searchRequest]).then(response => response.value);
