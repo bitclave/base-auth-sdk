@@ -156,6 +156,9 @@ export class Widget {
     createSearchResultByQuery (query, searchRequestId, page, size) {
         return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size);
     }
+    getCountBySearchRequestIds (searchRequestIds) {
+        return this._baseNodeApi.getCountBySearchRequestIds(searchRequestIds);
+    }
     cloneRequest (searchRequest) {
         return this._baseNodeApi.cloneRequest(searchRequest);
     }
@@ -311,6 +314,10 @@ class BASENodeAPI {
     }
     createSearchResultByQuery (query, searchRequestId, page, size) {
         return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size])
+            .then(response => response.value);
+    }
+    getCountBySearchRequestIds (searchRequestIds) {
+        return this._widgetRpc.call('searchManager.getCountBySearchRequestIds', [searchRequestIds])
             .then(response => response.value);
     }
     cloneRequest (searchRequest) {
