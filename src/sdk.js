@@ -35,6 +35,7 @@ export class Widget {
         iframe.width = '300';
         iframe.height = '48';
         iframe.data = this._settings.widgetUrl + this._settings.widgetLocation;
+
         // iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
         const el = document.querySelector(cssSelector);
