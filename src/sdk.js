@@ -280,9 +280,11 @@ export class Widget {
 
     /**
      * Returns the OfferSearches with related Offers list of provided user.
+     * clientPk - is only required
+     * other - is optional
      */
-    getUserOfferSearches(clientPk) {
-        return this._baseNodeApi.getUserOfferSearches(clientPk);
+    getUserOfferSearches(clientPk, page, size, unique, group, state) {
+        return this._baseNodeApi.getUserOfferSearches(clientPk, page, size, unique, group, state);
     }
 }
 
@@ -436,8 +438,10 @@ class BASENodeAPI {
       return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
     }
 
-    getUserOfferSearches (clientPk) {
-      return this._widgetRpc.call('searchManager.getUserOfferSearches', [clientPk]).then(response => response.value);
+    getUserOfferSearches (clientPk, page, size, unique, group, state) {
+      return this._widgetRpc
+          .call('searchManager.getUserOfferSearches', [clientPk, page, size, unique, group, state])
+          .then(response => response.value);
     }
 
     /**
