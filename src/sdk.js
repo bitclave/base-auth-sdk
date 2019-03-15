@@ -280,8 +280,7 @@ export class Widget {
 
     /**
      * Returns the OfferSearches with related Offers list of provided user.
-     * clientPk - is only required
-     * other - is optional
+     * all args is optional
      */
     getUserOfferSearches(page, size, unique, group, state) {
         return this._baseNodeApi.getUserOfferSearches(page, size, unique, group, state);
