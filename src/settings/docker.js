@@ -1,7 +1,7 @@
 export default class Settings {
     constructor() {
-        this._widgetUrl = 'https://base-auth-frontend-staging.herokuapp.com/';
-        this._widgetLocation = 'auth/widget';
+        this._widgetUrl = process.env.WIDGET_URL;
+        this._widgetLocation = process.env.WIDGET_LOCATION;
 
         if (this._widgetUrl[this._widgetUrl.length - 1] !== '/') {
             this._widgetUrl += '/';
