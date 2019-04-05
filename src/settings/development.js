@@ -1,8 +1,7 @@
 export default class Settings {
-    constructor(options) {
-        options = options || {};
-        this._widgetUrl = options.widgetUrl || 'http://localhost:4200/';
-        this._widgetLocation = options.widgetLocation || 'auth/widget';
+    constructor() {
+        this._widgetUrl = 'http://localhost:4200/';
+        this._widgetLocation = 'auth/widget';
 
         if (this._widgetUrl[this._widgetUrl.length - 1] !== '/') {
             this._widgetUrl += '/';

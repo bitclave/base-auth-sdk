@@ -7,7 +7,7 @@ export const UserPermissions = {
 
 export class Widget {
     constructor(options) {
-        this._settings = new Settings(options);
+        this._settings = new Settings();
         this._widgetIframe = null;
         this._widgetRpc = null;
         this._baseNodeApi = null;

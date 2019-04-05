@@ -6,6 +6,8 @@
   "scripts": {
     "postinstall": "npm run build",
     "build": "webpack --mode  none --env $NODE_ENV",
+    "start": "lite-server -c ./config/ls-config.prod.json",
+    "docker": "webpack --mode  none --env docker && lite-server -c ./config/ls-config.docker.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +25,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
+    "lite-server": "^2.4.0",
     "uuid": "^3.2.1"
   }
 }
