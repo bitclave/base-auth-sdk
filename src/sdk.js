@@ -228,6 +228,18 @@ export class Widget {
         return this._baseNodeApi.updateData(data);
     }
 
+    uploadFile(file, key) {
+        return this._baseNodeApi.uploadFile(file, key);
+    }
+
+    downloadFile(id) {
+        return this._baseNodeApi.downloadFile(id);
+    }
+
+    getFileMetaWithGivenKey(key) {
+        return this._baseNodeApi.getFileMetaWithGivenKey(key);
+    }
+
     addWealthValidator(data) {
         return this._baseNodeApi.addWealthValidator(data);
     }
@@ -379,6 +391,18 @@ class BASENodeAPI {
     }
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
+    }
+
+    uploadFile(file, key) {
+        return this._widgetRpc.call('profileManager.uploadFile', [file, key]).then(response => response.value);
+    }
+
+    downloadFile(id) {
+        return this._widgetRpc.call('profileManager.downloadFile', [id]).then(response => response.value);
+    }
+
+    getFileMetaWithGivenKey(key) {
+        return this._widgetRpc.call('profileManager.getFileMetaWithGivenKey', [key]).then(response => response.value);
     }
 
     addWealthValidator(data) {
