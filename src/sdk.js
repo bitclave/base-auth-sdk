@@ -297,6 +297,16 @@ export class Widget {
     getUserOfferSearches(page, size, unique, searchIds, state) {
         return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state);
     }
+
+    // external service manager
+
+    callExternalService(serviceCall) {
+        return this._baseNodeApi.callExternalService(serviceCall);
+    }
+
+    getExternalServices() {
+        return this._baseNodeApi.getExternalServices();
+    }
 }
 
 class BASENodeAPI {
@@ -472,5 +482,17 @@ class BASENodeAPI {
      */
     getGrantedPermissionsByMeToClient(clientPk) {
         return this._widgetRpc.call('dataRequestManager.getGrantedPermissionsToMe',[clientPk]).then(response=>response.value);
+    }
+
+    // external service manager
+
+    callExternalService(serviceCall) {
+        return this._widgetRpc.call('externalServicesManager.callExternalService',[serviceCall])
+            .then(response=>response.value);
+    }
+
+    getExternalServices() {
+        return this._widgetRpc.call('externalServicesManager.getExternalServices',[])
+            .then(response=>response.value);
     }
 }
