@@ -221,8 +221,8 @@ export class Widget {
     }
 
 
-    getData() {
-        return this._baseNodeApi.getData();
+    getData(keys) {
+        return this._baseNodeApi.getData(keys);
     }
     updateData(data) {
         return this._baseNodeApi.updateData(data);
@@ -396,8 +396,8 @@ class BASENodeAPI {
         return this._widgetRpc.call('logout', []);
     }
 
-    getData() {
-        return this._widgetRpc.call('profileManager.getData', []).then(response => response.value);
+    getData(keys) {
+        return this._widgetRpc.call('profileManager.getData', [keys]).then(response => response.value);
     }
     updateData(data) {
         return this._widgetRpc.call('profileManager.updateData', [data]).then(response => response.value);
