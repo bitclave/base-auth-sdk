@@ -265,6 +265,9 @@ export class Widget {
     getAuthorizedData(recipientPk, encryptedData) {
         return this._baseNodeApi.getAuthorizedData(recipientPk, encryptedData);
     }
+    getAuthorizedEncryptionKeys(recipientPk, encryptionKeys) {
+        return this._baseNodeApi.getAuthorizedEncryptionKeys(recipientPk, encryptionKeys);
+    }
 
     // share data
     grantAccessForClient(clientPk, acceptedFields) {
@@ -457,7 +460,11 @@ class BASENodeAPI {
       return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
     }
 
-    /**
+    getAuthorizedEncryptionKeys(recipientPk, encryptionKeys) {
+        return this._widgetRpc.call('profileManager.getAuthorizedEncryptionKeys',[recipientPk, encryptionKeys]).then(response => response.value);
+      }
+  
+      /**
      * Returns list of fields requested for access by <me> from the client
      */
     getRequestedPermissionsByMeFromClient(requestedFromPk) {
