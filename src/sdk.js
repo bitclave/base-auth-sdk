@@ -232,8 +232,18 @@ export class Widget {
         return this._baseNodeApi.uploadFile(file, key);
     }
 
-    downloadFile(id) {
-        return this._baseNodeApi.downloadFile(id);
+    /**
+     * Download and decrypt saved file.
+     *
+     * @param {number} id file id for DB
+     * @param {string} key same key filed where was saved FileMeta
+     * @param {string} publicKey (optional) client public id. by default will used current user
+     * @param {string} password (optional)  if already have password for decrypt file.
+     *
+     * @return {Promise<string>} decrypted file Base64
+     */
+    downloadFile(id, key, publicKey, password) {
+        return this._baseNodeApi.downloadFile(id, key, publicKey, password);
     }
 
     getFileMetaWithGivenKey(key) {
@@ -407,8 +417,9 @@ class BASENodeAPI {
         return this._widgetRpc.call('profileManager.uploadFile', [file, key]).then(response => response.value);
     }
 
-    downloadFile(id) {
-        return this._widgetRpc.call('profileManager.downloadFile', [id]).then(response => response.value);
+    downloadFile(id, key, publicKey, password) {
+        return this._widgetRpc.call('profileManager.downloadFile', [id, key, publicKey, password])
+            .then(response => response.value);
     }
 
     getFileMetaWithGivenKey(key) {
