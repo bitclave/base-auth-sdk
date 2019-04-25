@@ -1,3 +1,5 @@
+const UNIQUE_SERVICE_NAME = 'base-auth-sdk';
+
 function RPCCall(id, methodName, args, resolve) {
     this.id = id;
     this.methodName = methodName;
@@ -58,7 +60,7 @@ export default function IFrameRPC(targetWindow, targetOrigin) {
 
 IFrameRPC.prototype.call = function (methodName, args) {
     return new Promise(function (resolve, reject) {
-        const callId = this._currentCallId++;
+        const callId = UNIQUE_SERVICE_NAME + this._currentCallId++;
         this._calls[callId] = new RPCCall(callId, methodName, args, resolve);
         this._calls[callId].send(this._targetWindow, this._targetOrigin);
     }.bind(this));
