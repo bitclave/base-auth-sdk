@@ -253,8 +253,8 @@ export class Widget {
     addWealthValidator(data) {
         return this._baseNodeApi.addWealthValidator(data);
     }
-    createWalletsRecords(data, baseID) {
-        return this._baseNodeApi.createWalletsRecords(data, baseID);
+    createCryptoWalletsData(cryptoWallets) {
+        return this._baseNodeApi.createCryptoWalletsData(cryptoWallets);
     }
     refreshWealthPtr() {
         return this._baseNodeApi.refreshWealthPtr();
@@ -432,18 +432,11 @@ class BASENodeAPI {
     addWealthValidator(data) {
         return this._widgetRpc.call('walletManager.addWealthValidator', [data]).then(response => response.value);
     }
-    createWalletsRecords(data, BaseId) {
-      return this._widgetRpc.call('walletManager.createWalletsRecords', [data, BaseId]).then(response => response.value);
+
+    createCryptoWalletsData(cryptoWallets) {
+      return this._widgetRpc.call('walletManager.createCryptoWalletsData', [cryptoWallets]).then(response => response.value);
     }
-    refreshWealthPtr() {
-      return this._widgetRpc.call('walletManager.refreshWealthPtr', []).then(response => {
-        const pointer = response.value;
-        if ( typeof pointer === 'string' && pointer === 'validator did not verify anything yet'){
-          throw new Error('validator did not verify anything yet');
-        }
-        return pointer
-      });
-    }
+
     getRequests(fromPk, toPk) {
       return this._widgetRpc.call('dataRequestManager.getRequests',[fromPk, toPk]).then(response => response.value);
     }
