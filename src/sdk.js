@@ -93,6 +93,18 @@ export class Widget {
         }.bind(this));
     }
 
+    listenForRedirect(handler) {
+        this._widgetRpc.listen('SDK.onRedirect', function (rpcCall) {
+            const url = rpcCall.args[0];
+            handler(url);
+            rpcCall.respond(
+                this._widgetIframe.contentWindow,
+                this._settings.widgetUrl,
+                null
+            );
+        }.bind(this));
+    }
+
     refreshToken(){
         return this._widgetRpc.call('refreshToken').then(function (rpcCall) {
             return null;
