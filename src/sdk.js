@@ -319,8 +319,8 @@ export class Widget {
      * Returns the OfferSearches with related Offers list of provided user.
      * all args is optional
      */
-    getUserOfferSearches(page, size, unique, searchIds, state) {
-        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state);
+    getUserOfferSearches(page, size, unique, searchIds, state, sort) {
+        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort);
     }
 
     // external service manager
