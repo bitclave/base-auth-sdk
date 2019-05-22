@@ -468,7 +468,7 @@ class BASENodeAPI {
     getAuthorizedEncryptionKeys(recipientPk, encryptionKeys) {
         return this._widgetRpc.call('profileManager.getAuthorizedEncryptionKeys',[recipientPk, encryptionKeys]).then(response => response.value);
       }
-  
+
       /**
      * Returns list of fields requested for access by <me> from the client
      */
@@ -493,10 +493,18 @@ class BASENodeAPI {
     getSearchResultByRequestIdForNotAuthorized (id) {
       return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
     }
-
-    getUserOfferSearches (page, size, unique, searchIds, state) {
+    /**
+     *
+     * @param {number} page
+     * @param {number} size
+     * @param {boolean} unique
+     * @param {Array<number>} searchIds
+     * @param {Array<OfferResultAction>} state
+     * @param {SortOfferSearch} sort - type of sorting for OfferSearch it's a string 'rank' or ''updatedAt or undefined
+     */
+    getUserOfferSearches (page, size, unique, searchIds, state, sort) {
       return this._widgetRpc
-          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state])
+          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort])
           .then(response => response.value);
     }
 
