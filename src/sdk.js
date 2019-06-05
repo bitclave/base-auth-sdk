@@ -360,7 +360,16 @@ class BASENodeAPI {
     createRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.createRequest', [searchRequest]).then(response => response.value);
     }
-    createSearchResultByQuery (query, searchRequestId, page, size) {
+    /**
+     *
+     * @param {string} query
+     * @param {number} searchRequestId
+     * @param {number} page
+     * @param {number} size
+     * @param {string[]} interests
+     * @param {string} mode 'must' or 'prefer'
+     */
+    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
         return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size])
             .then(response => response.value);
     }
