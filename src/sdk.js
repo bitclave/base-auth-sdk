@@ -165,8 +165,8 @@ export class Widget {
     createRequest (searchRequest) {
         return this._baseNodeApi.createRequest(searchRequest);
     }
-    createSearchResultByQuery (query, searchRequestId, page, size) {
-        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size);
+    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
+        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size, interests, mode);
     }
     getCountBySearchRequestIds (searchRequestIds) {
         return this._baseNodeApi.getCountBySearchRequestIds(searchRequestIds);
@@ -370,7 +370,7 @@ class BASENodeAPI {
      * @param {string} mode 'must' or 'prefer'
      */
     createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
-        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size])
+        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size, interests, mode])
             .then(response => response.value);
     }
     getCountBySearchRequestIds (searchRequestIds) {
