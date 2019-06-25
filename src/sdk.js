@@ -165,6 +165,9 @@ export class Widget {
     createRequest (searchRequest) {
         return this._baseNodeApi.createRequest(searchRequest);
     }
+    getSuggestionByQuery (query, size) {
+        return this._baseNodeApi.getSuggestionByQuery(query, size);
+    }
     createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
         return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size, interests, mode);
     }
@@ -359,6 +362,10 @@ class BASENodeAPI {
     // Search request
     createRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.createRequest', [searchRequest]).then(response => response.value);
+    }
+    getSuggestionByQuery (query, size) {
+        return this._widgetRpc.call('searchManager.getSuggestionByQuery', [query, size])
+            .then(response => response.value);
     }
     /**
      *
