@@ -326,6 +326,16 @@ export class Widget {
         return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort, interaction);
     }
 
+    /**
+     *  all args is optional.
+     * @param {Array<number>} offerIds
+     * @param {Array<OfferResultAction>} states
+     * @param {string} owner (by default current user)
+     * @returns {Promise<Array<OfferInteraction>>}
+     */
+    getInteractions (offerIds, states, owner) {
+        return this._baseNodeApi.getInteractions(offerIds, states, owner);
+    }
     // external service manager
 
     callExternalService(serviceCall) {
@@ -509,6 +519,7 @@ class BASENodeAPI {
     getSearchResultByRequestIdForNotAuthorized (id) {
       return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
     }
+
     /**
      *
      * @param {number} page
@@ -523,6 +534,19 @@ class BASENodeAPI {
       return this._widgetRpc
           .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort, interaction])
           .then(response => response.value);
+    }
+
+    /**
+     *  all args is optional.
+     * @param {Array<number>} offerIds
+     * @param {Array<OfferResultAction>} states
+     * @param {string} owner (by default current user)
+     * @returns {Promise<Array<OfferInteraction>>}
+     */
+    getInteractions (offerIds, states, owner) {
+        return this._widgetRpc
+            .call('searchManager.getInteractions', [offerIds, states, owner])
+            .then(response => response.value);
     }
 
     /**
