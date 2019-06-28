@@ -322,8 +322,8 @@ export class Widget {
      * Returns the OfferSearches with related Offers list of provided user.
      * all args is optional
      */
-    getUserOfferSearches(page, size, unique, searchIds, state, sort) {
-        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort);
+    getUserOfferSearches(page, size, unique, searchIds, state, sort, interaction) {
+        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort, interaction);
     }
 
     // external service manager
@@ -517,10 +517,11 @@ class BASENodeAPI {
      * @param {Array<number>} searchIds
      * @param {Array<OfferResultAction>} state
      * @param {SortOfferSearch} sort - type of sorting for OfferSearch it's a string 'rank' or ''updatedAt or undefined
+     * @param {boolean} interaction add sub information with interaction by owner and offerId
      */
-    getUserOfferSearches (page, size, unique, searchIds, state, sort) {
+    getUserOfferSearches (page, size, unique, searchIds, state, sort, interaction) {
       return this._widgetRpc
-          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort])
+          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort, interaction])
           .then(response => response.value);
     }
 
