@@ -322,10 +322,20 @@ export class Widget {
      * Returns the OfferSearches with related Offers list of provided user.
      * all args is optional
      */
-    getUserOfferSearches(page, size, unique, searchIds, state, sort) {
-        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort);
+    getUserOfferSearches(page, size, unique, searchIds, state, sort, interaction) {
+        return this._baseNodeApi.getUserOfferSearches(page, size, unique, searchIds, state, sort, interaction);
     }
 
+    /**
+     *  all args is optional.
+     * @param {Array<number>} offerIds
+     * @param {Array<OfferResultAction>} states
+     * @param {string} owner (by default current user)
+     * @returns {Promise<Array<OfferInteraction>>}
+     */
+    getInteractions (offerIds, states, owner) {
+        return this._baseNodeApi.getInteractions(offerIds, states, owner);
+    }
     // external service manager
 
     callExternalService(serviceCall) {
@@ -509,6 +519,7 @@ class BASENodeAPI {
     getSearchResultByRequestIdForNotAuthorized (id) {
       return this._widgetRpc.call('searchManager.getSearchResultForNotAuthorized', [id]).then(response => response.value);
     }
+
     /**
      *
      * @param {number} page
@@ -517,11 +528,25 @@ class BASENodeAPI {
      * @param {Array<number>} searchIds
      * @param {Array<OfferResultAction>} state
      * @param {SortOfferSearch} sort - type of sorting for OfferSearch it's a string 'rank' or ''updatedAt or undefined
+     * @param {boolean} interaction add sub information with interaction by owner and offerId
      */
-    getUserOfferSearches (page, size, unique, searchIds, state, sort) {
+    getUserOfferSearches (page, size, unique, searchIds, state, sort, interaction) {
       return this._widgetRpc
-          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort])
+          .call('searchManager.getUserOfferSearches', [page, size, unique, searchIds, state, sort, interaction])
           .then(response => response.value);
+    }
+
+    /**
+     *  all args is optional.
+     * @param {Array<number>} offerIds
+     * @param {Array<OfferResultAction>} states
+     * @param {string} owner (by default current user)
+     * @returns {Promise<Array<OfferInteraction>>}
+     */
+    getInteractions (offerIds, states, owner) {
+        return this._widgetRpc
+            .call('searchManager.getInteractions', [offerIds, states, owner])
+            .then(response => response.value);
     }
 
     /**
