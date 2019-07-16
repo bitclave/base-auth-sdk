@@ -174,14 +174,14 @@ export class Widget {
     getCountBySearchRequestIds (searchRequestIds) {
         return this._baseNodeApi.getCountBySearchRequestIds(searchRequestIds);
     }
-    cloneRequest (searchRequest) {
-        return this._baseNodeApi.cloneRequest(searchRequest);
+    cloneRequest (searchRequestIds) {
+        return this._baseNodeApi.cloneRequest(searchRequestIds);
     }
     updateRequest (searchRequest) {
         return this._baseNodeApi.updateRequest(searchRequest);
     }
-    copyOffersSearchToRequest(id, searchRequest) {
-        return this._baseNodeApi.copyOffersSearchToRequest(id, searchRequest);
+    copyOffersSearchToRequest(originToCopySearchRequestIds) {
+        return this._baseNodeApi.copyOffersSearchToRequest(originToCopySearchRequestIds);
     }
     getMyRequests (id) {
         return this._baseNodeApi.getMyRequests(id);
@@ -394,14 +394,14 @@ class BASENodeAPI {
         return this._widgetRpc.call('searchManager.getCountBySearchRequestIds', [searchRequestIds])
             .then(response => response.value);
     }
-    cloneRequest (searchRequest) {
-        return this._widgetRpc.call('searchManager.cloneRequest', [searchRequest]).then(response => response.value);
+    cloneRequest (searchRequestIds) {
+        return this._widgetRpc.call('searchManager.cloneRequest', [searchRequestIds]).then(response => response.value);
     }
     updateRequest (searchRequest) {
         return this._widgetRpc.call('searchManager.updateRequest', [searchRequest]).then(response => response.value);
     }
-    copyOffersSearchToRequest (id, searchRequest) {
-        return this._widgetRpc.call('searchManager.copyOffersSearchToRequest', [id, searchRequest]).then(response => response.value);
+    copyOffersSearchToRequest (originToCopySearchRequestIds) {
+        return this._widgetRpc.call('searchManager.copyOffersSearchToRequest', [originToCopySearchRequestIds]).then(response => response.value);
     }
     getMyRequests (id) {
         return this._widgetRpc.call('searchManager.getMyRequests', [id]).then(response => response.value);
