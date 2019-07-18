@@ -385,9 +385,11 @@ class BASENodeAPI {
      * @param {number} size
      * @param {string[]} interests
      * @param {string} mode 'must' or 'prefer'
+     * @param {object} filters e.g. "{ megaType: ['product','store'], color: ['red', 'yellow'], price: ['100-200', '500-1000']}""
      */
-    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
-        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size, interests, mode])
+    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode, filters) {
+        console.log('base-auth-sdk send filter', filters);
+        return this._widgetRpc.call('searchManager.createSearchResultByQuery', [query, searchRequestId, page, size, interests, mode, filters])
             .then(response => response.value);
     }
     getCountBySearchRequestIds (searchRequestIds) {
