@@ -168,8 +168,8 @@ export class Widget {
     getSuggestionByQuery (query, size) {
         return this._baseNodeApi.getSuggestionByQuery(query, size);
     }
-    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode) {
-        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size, interests, mode);
+    createSearchResultByQuery (query, searchRequestId, page, size, interests, mode, filters) {
+        return this._baseNodeApi.createSearchResultByQuery(query, searchRequestId, page, size, interests, mode, filters);
     }
     getCountBySearchRequestIds (searchRequestIds) {
         return this._baseNodeApi.getCountBySearchRequestIds(searchRequestIds);
