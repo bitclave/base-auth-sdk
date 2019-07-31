@@ -160,6 +160,10 @@ export class Widget {
       return this._baseNodeApi.logout();
     }
 
+    createAutoSignupUser(data) {
+        return this._baseNodeApi.createAutoSignupUser(data);
+    }
+
 
     // Search request
     createRequest (searchRequest) {
@@ -368,6 +372,9 @@ class BASENodeAPI {
       return this._widgetRpc.call('offerManager.deleteOffer', [id]).then(response => response.value);
     }
 
+    createAutoSignupUser (data) {
+        return this._widgetRpc.call('searchManager.createAutoSignupUser', [data]).then(response => response.value);
+    }
 
     // Search request
     createRequest (searchRequest) {
