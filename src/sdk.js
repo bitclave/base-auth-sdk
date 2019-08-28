@@ -281,11 +281,11 @@ export class Widget {
     getRequests(fromPk, toPk) {
         return this._baseNodeApi.getRequests(fromPk, toPk);
     }
-    getAuthorizedData(recipientPk, encryptedData) {
-        return this._baseNodeApi.getAuthorizedData(recipientPk, encryptedData);
+    getAuthorizedData(acceptedRequests) {
+        return this._baseNodeApi.getAuthorizedData(acceptedRequests);
     }
-    getAuthorizedEncryptionKeys(recipientPk, encryptionKeys) {
-        return this._baseNodeApi.getAuthorizedEncryptionKeys(recipientPk, encryptionKeys);
+    getAuthorizedEncryptionKeys(encryptedData) {
+        return this._baseNodeApi.getAuthorizedEncryptionKeys(encryptedData);
     }
 
     // share data
@@ -496,12 +496,12 @@ class BASENodeAPI {
         .call('dataRequestManager.grantAccessForClient', [clientPk, acceptedFields])
         .then(response => response.value);
     }
-    getAuthorizedData(recipientPk, encryptedData) {
-      return this._widgetRpc.call('profileManager.getAuthorizedData',[recipientPk, encryptedData]).then(response => response.value);
+    getAuthorizedData(acceptedRequests) {
+      return this._widgetRpc.call('profileManager.getAuthorizedData',[acceptedRequests]).then(response => response.value);
     }
 
-    getAuthorizedEncryptionKeys(recipientPk, encryptionKeys) {
-        return this._widgetRpc.call('profileManager.getAuthorizedEncryptionKeys',[recipientPk, encryptionKeys]).then(response => response.value);
+    getAuthorizedEncryptionKeys(encryptedData) {
+        return this._widgetRpc.call('profileManager.getAuthorizedEncryptionKeys',[encryptedData]).then(response => response.value);
       }
 
       /**
