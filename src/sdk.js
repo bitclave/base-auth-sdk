@@ -93,6 +93,18 @@ export class Widget {
         }.bind(this));
     }
 
+    listenForEvent(handler) {
+        this._widgetRpc.listen('SDK.onEvent', function (rpcCall) {
+            const event = rpcCall.args[0];
+            handler(event);
+            rpcCall.respond(
+                this._widgetIframe.contentWindow,
+                this._settings.widgetUrl,
+                null
+            );
+        }.bind(this));
+    }
+
     listenForRedirect(handler) {
         this._widgetRpc.listen('SDK.onRedirect', function (rpcCall) {
             const url = rpcCall.args[0];
