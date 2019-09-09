@@ -290,6 +290,11 @@ export class Widget {
     refreshWealthPtr() {
         return this._baseNodeApi.refreshWealthPtr();
     }
+
+    getRequestsGraph(inputData) {
+        return this._baseNodeApi.getRequestsGraph(inputData);
+    }
+
     getRequests(fromPk, toPk) {
         return this._baseNodeApi.getRequests(fromPk, toPk);
     }
@@ -494,6 +499,10 @@ class BASENodeAPI {
 
     createCryptoWalletsData(cryptoWallets) {
       return this._widgetRpc.call('walletManager.createCryptoWalletsData', [cryptoWallets]).then(response => response.value);
+    }
+
+    getRequestsGraph(inputData) {
+        return this._widgetRpc.call('dataRequestManager.getRequestsGraph',[inputData]).then(response => response.value);
     }
 
     getRequests(fromPk, toPk) {
