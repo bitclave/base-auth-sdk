@@ -17,7 +17,12 @@ apiVersion: extensions/v1beta1
 metadata:
   name: base-auth-sdk-staging
 spec:
-  replicas:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 2
   template:
     metadata:
       name: base-auth-sdk-service
@@ -42,11 +47,14 @@ spec:
                 name: secret-staging-base-auth-sdk
 
           imagePullPolicy: Always
-          # readinessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: 80
-          # command: ["sh", "-c", "app -frontend=true -backend-service=http://gceme-backend:8080 -port=80"]
           ports:
             - name: api
               containerPort: 5003
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5003
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 3
