@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: service
-          image: gcr.io/bitclave-jenkins-ci/base-auth-sdk:latest
+          image: gcr.io/bitclave-jenkins-ci/base-auth-sdk:id-to-replace
           resources:
             limits:
               memory: "500Mi"
