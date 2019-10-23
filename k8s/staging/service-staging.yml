@@ -32,7 +32,7 @@ spec:
           resources:
             limits:
               memory: "500Mi"
-              cpu: "100m"
+              cpu: "300m"
           env:
             - name: WIDGET_LOCATION
               value: "auth/widget"
