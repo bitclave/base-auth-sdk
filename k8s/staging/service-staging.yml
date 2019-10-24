@@ -47,7 +47,7 @@ spec:
               value: "auth/widget"
 
             - name: WIDGET_URL
-              value: https://staging-cluster.bitclave.com/auth-frontend/
+              value: https://auth-frontend.base-gke-staging.com/
 
           imagePullPolicy: Always
           ports:
