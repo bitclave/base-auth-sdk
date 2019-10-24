@@ -36,8 +36,8 @@ spec:
           image: gcr.io/bitclave-jenkins-ci/base-auth-sdk:id-to-replace
           resources:
             limits:
-              memory: "500Mi"
-              cpu: "300m"
+              memory: "200Mi"
+              cpu: "100m"
           env:
             - name: WIDGET_LOCATION
               value: "auth/widget"
