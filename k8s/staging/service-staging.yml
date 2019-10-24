@@ -38,13 +38,16 @@ spec:
             limits:
               memory: "500Mi"
               cpu: "100m"
+          envFrom:
+            - secretRef:
+                name: secret-staging-base-auth-sdk
+
           env:
             - name: WIDGET_LOCATION
               value: "auth/widget"
 
-          envFrom:
-            - secretRef:
-                name: secret-staging-base-auth-sdk
+            - name: WIDGET_URL
+              value: https://staging-cluster.bitclave.com/auth-frontend/
 
           imagePullPolicy: Always
           ports:
