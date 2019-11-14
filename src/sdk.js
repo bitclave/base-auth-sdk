@@ -1,5 +1,7 @@
 import IFrameRPC from './core/IFrameRPC.js';
 import Settings from 'settings';
+import DummyBASENodeAPI from './dummyBASENodeAPI';
+import {onLoginMockData} from "./mock-data/userData";
 
 export const UserPermissions = {
     EMAIL: 'email',
@@ -11,6 +13,8 @@ export class Widget {
         this._widgetIframe = null;
         this._widgetRpc = null;
         this._baseNodeApi = null;
+        this._testMode = options.testMode || false;
+        this._testListening = {};
         this._verificationMessage = options.verificationMessage;
         this._buttonStyle = options.buttonStyle;
         this._isMnemonicScreen = (options.isMnemonicScreen === undefined || !! options.isMnemonicScreen);
@@ -19,40 +23,63 @@ export class Widget {
         }
     }
     openSignInProgrammatically(){
-        return this._widgetRpc.call('openSignIn').then(function (rpcCall) {
-            return null;
-        });
+        if (this._testMode) {
+            return new Promise(function (resolve, reject) {
+                this._testListening['SDK.onLogin'] && this._testListening['SDK.onLogin'](onLoginMockData);
+                resolve(null);
+                sessionStorage.setItem('IS_TEST_MODE_LOGIN', true);
+            }.bind(this));
+        } else {
+            return this._widgetRpc.call('openSignIn').then(function (rpcCall) {
+                return null;
+            });
+        }
+
     }
     openSignUpProgrammatically(){
-        return this._widgetRpc.call('openSignUp').then(function (rpcCall) {
-            return null;
-        });
+        if (this._testMode) {
+            return new Promise(function (resolve, reject) {
+                this._testListening['SDK.onLogin'] && this._testListening['SDK.onLogin'](onLoginMockData);
+                resolve(null);
+                sessionStorage.setItem('IS_TEST_MODE_LOGIN', true);
+            }.bind(this));
+        } else {
+            return this._widgetRpc.call('openSignUp').then(function (rpcCall) {
+                return null;
+            });
+        }
+
     }
 
     insertLoginButton(cssSelector) {
-        const iframe = document.createElement('iframe');
-        iframe.frameBorder = '0';
-        iframe.width = '300';
-        iframe.height = '48';
-        iframe.src = this._settings.widgetUrl + this._settings.widgetLocation;
-        iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
+        if (this._testMode) {
+            this._baseNodeApi = new DummyBASENodeAPI(this._widgetRpc);
+        } else {
+            const iframe = document.createElement('iframe');
+            iframe.frameBorder = '0';
+            iframe.width = '300';
+            iframe.height = '48';
+            iframe.src = this._settings.widgetUrl + this._settings.widgetLocation;
+            iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
-        const el = document.querySelector(cssSelector);
-        el.appendChild(iframe);
-        this._widgetIframe = iframe;
+            const el = document.querySelector(cssSelector);
+            el.appendChild(iframe);
+            this._widgetIframe = iframe;
 
-        this._widgetRpc = new IFrameRPC(this._widgetIframe.contentWindow, this._settings.widgetUrl);
-        this._widgetRpc.once('RPC.handshake').then(rpcCall => {
-            rpcCall.respond(
-                this._widgetIframe.contentWindow,
-                this._settings.widgetUrl,
-                { verificationMessage: this._verificationMessage,
-                  buttonStyle : this._buttonStyle,
-                  isMnemonicScreen: this._isMnemonicScreen
-                }
-            );
-            this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
-        });
+            this._widgetRpc = new IFrameRPC(this._widgetIframe.contentWindow, this._settings.widgetUrl);
+            this._widgetRpc.once('RPC.handshake').then(rpcCall => {
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    { verificationMessage: this._verificationMessage,
+                        buttonStyle : this._buttonStyle,
+                        testMode: this._testMode,
+                        isMnemonicScreen: this._isMnemonicScreen
+                    }
+                );
+                this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
+            });
+        }
     }
 
     waitForLogin() {
@@ -64,14 +91,22 @@ export class Widget {
     }
 
     listenForInit(handler) {
-      this._widgetRpc.listen('SDK.onInit', function (rpcCall) {
-          handler(rpcCall.methodName);
-          rpcCall.respond(
-              this._widgetIframe.contentWindow,
-              this._settings.widgetUrl,
-              null
-          );
-      }.bind(this));
+        if (this._testMode) {
+            handler('SDK.onInit');
+            const IS_TEST_MODE_LOGIN = sessionStorage.getItem('IS_TEST_MODE_LOGIN');
+            if (IS_TEST_MODE_LOGIN) {
+                setTimeout(() => this.openSignInProgrammatically(), 300);
+            }
+        } else {
+            this._widgetRpc.listen('SDK.onInit', function (rpcCall) {
+                handler(rpcCall.methodName);
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    null
+                );
+            }.bind(this));
+        }
     }
 
     waitForLogout() {
@@ -82,63 +117,87 @@ export class Widget {
     }
 
     listenForLogin(handler) {
-        this._widgetRpc.listen('SDK.onLogin', function (rpcCall) {
-            const account = rpcCall.args[0];
-            handler(account);
-            rpcCall.respond(
-                this._widgetIframe.contentWindow,
-                this._settings.widgetUrl,
-                null
-            );
-        }.bind(this));
+        if (this._testMode) {
+            this._testListening['SDK.onLogin'] = handler;
+        } else {
+            this._widgetRpc.listen('SDK.onLogin', function (rpcCall) {
+                const account = rpcCall.args[0];
+                handler(account);
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    null
+                );
+            }.bind(this));
+        }
     }
 
     listenForEvent(handler) {
-        this._widgetRpc.listen('SDK.onEvent', function (rpcCall) {
-            const event = rpcCall.args[0];
-            handler(event);
-            rpcCall.respond(
-                this._widgetIframe.contentWindow,
-                this._settings.widgetUrl,
-                null
-            );
-        }.bind(this));
+        if (this._testMode) {
+            this._testListening['SDK.onEvent'] = handler;
+        } else {
+            this._widgetRpc.listen('SDK.onEvent', function (rpcCall) {
+                const event = rpcCall.args[0];
+                handler(event);
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    null
+                );
+            }.bind(this));
+        }
     }
 
     listenForRedirect(handler) {
-        this._widgetRpc.listen('SDK.onRedirect', function (rpcCall) {
-            const url = rpcCall.args[0];
-            handler(url);
-            rpcCall.respond(
-                this._widgetIframe.contentWindow,
-                this._settings.widgetUrl,
-                null
-            );
-        }.bind(this));
+        if (this._testMode) {
+            return 'SDK.onRedirect';
+        } else {
+            this._widgetRpc.listen('SDK.onRedirect', function (rpcCall) {
+                const url = rpcCall.args[0];
+                handler(url);
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    null
+                );
+            }.bind(this));
+        }
     }
 
     refreshToken(){
-        return this._widgetRpc.call('refreshToken').then(function (rpcCall) {
-            return null;
-        });
+        if (this._testMode) {
+            return 'SDK.refreshToken';
+        } else {
+            return this._widgetRpc.call('refreshToken').then(function (rpcCall) {
+                return null;
+            });
+        }
     }
 
     listenForRefreshToken(handler) {
-        return this._widgetRpc.listen('SDK.onRefreshToken', function (rpcCall) {
-            const token = rpcCall.args[0];
-            handler(token);
-        }.bind(this));
+        if (this._testMode) {
+            return 'SDK.onRefreshToken';
+        } else {
+            return this._widgetRpc.listen('SDK.onRefreshToken', function (rpcCall) {
+                const token = rpcCall.args[0];
+                handler(token);
+            }.bind(this));
+        }
     }
 
     listenForLogout(handler) {
-        this._widgetRpc.listen('SDK.onLogout', function (rpcCall) {
-            handler();
-            rpcCall.respond(
-                this._widgetIframe.contentWindow,
-                this._settings.widgetUrl,
-                null
-            );
-        }.bind(this));
+        if (this._testMode) {
+            return 'SDK.onLogout';
+        } else {
+            this._widgetRpc.listen('SDK.onLogout', function (rpcCall) {
+                handler();
+                rpcCall.respond(
+                    this._widgetIframe.contentWindow,
+                    this._settings.widgetUrl,
+                    null
+                );
+            }.bind(this));
+        }
     }
 
     requestPermissions(permissions) {
@@ -248,6 +307,10 @@ export class Widget {
         return this._baseNodeApi.deleteAccount();
     }
     logout() {
+      if (this._testMode) {
+            sessionStorage.removeItem('IS_TEST_MODE_LOGIN');
+            setTimeout(() => this._testListening['SDK.onEvent']({name: "logoutFinish"}), 1000);
+      }
       return this._baseNodeApi.logout();
     }
 
