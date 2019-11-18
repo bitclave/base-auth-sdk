@@ -374,6 +374,10 @@ export class Widget {
     }
 
 
+    getNodeVersion() {
+        return this._baseNodeApi.getNodeVersion();
+    }
+
     /**
      * Returns list of fields requested for access by <me> from the client
      */
@@ -588,7 +592,11 @@ class BASENodeAPI {
         return this._widgetRpc.call('profileManager.getAuthorizedEncryptionKeys',[encryptedData]).then(response => response.value);
       }
 
-      /**
+    getNodeVersion() {
+        return this._widgetRpc.call('nodeVersion',[]).then(response=>response.value);
+    }
+
+    /**
      * Returns list of fields requested for access by <me> from the client
      */
     getRequestedPermissionsByMeFromClient(requestedFromPk) {
