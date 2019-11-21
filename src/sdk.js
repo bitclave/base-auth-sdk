@@ -18,6 +18,7 @@ export class Widget {
         this._verificationMessage = options.verificationMessage;
         this._buttonStyle = options.buttonStyle;
         this._isMnemonicScreen = (options.isMnemonicScreen === undefined || !! options.isMnemonicScreen);
+        this._isCheckAuth = options.isCheckAuth || false;
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
         }
@@ -55,11 +56,15 @@ export class Widget {
         if (this._testMode) {
             this._baseNodeApi = new DummyBASENodeAPI(this._widgetRpc);
         } else {
+            let iframeSrc = this._settings.widgetUrl + this._settings.widgetLocation;
+            if (this._isCheckAuth) {
+                iframeSrc += '?sso';
+            }
             const iframe = document.createElement('iframe');
             iframe.frameBorder = '0';
             iframe.width = '300';
             iframe.height = '48';
-            iframe.src = this._settings.widgetUrl + this._settings.widgetLocation;
+            iframe.src = iframeSrc;
             iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
             const el = document.querySelector(cssSelector);
@@ -74,7 +79,8 @@ export class Widget {
                     { verificationMessage: this._verificationMessage,
                         buttonStyle : this._buttonStyle,
                         testMode: this._testMode,
-                        isMnemonicScreen: this._isMnemonicScreen
+                        isMnemonicScreen: this._isMnemonicScreen,
+                        isCheckAuth: this._isCheckAuth
                     }
                 );
                 this._baseNodeApi = new BASENodeAPI(this._widgetRpc);
