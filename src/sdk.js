@@ -58,7 +58,7 @@ export class Widget {
         } else {
             let iframeSrc = this._settings.widgetUrl + this._settings.widgetLocation;
             if (this._isCheckAuth) {
-                iframeSrc += '?sso';
+                iframeSrc += '?sso=';
             }
             const iframe = document.createElement('iframe');
             iframe.frameBorder = '0';
