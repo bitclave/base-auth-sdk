@@ -19,6 +19,7 @@ export class Widget {
         this._buttonStyle = options.buttonStyle;
         this._isMnemonicScreen = (options.isMnemonicScreen === undefined || !! options.isMnemonicScreen);
         this._isCheckAuth = options.isCheckAuth || false;
+        this._token = options.token || '';
         if (!this._verificationMessage || this._verificationMessage.length < 10) {
             throw new Error('Verification message length is 10 characters minimum');
         }
@@ -57,14 +58,18 @@ export class Widget {
             this._baseNodeApi = new DummyBASENodeAPI(this._widgetRpc);
         } else {
             let iframeSrc = this._settings.widgetUrl + this._settings.widgetLocation;
+            let additionalQueries = '';
             if (this._isCheckAuth) {
-                iframeSrc += '?sso=';
+                additionalQueries += `?sso=`;
+            }
+            if (this._token) {
+                additionalQueries = (additionalQueries.length) ? additionalQueries + `&token=` : `?token=`;
             }
             const iframe = document.createElement('iframe');
             iframe.frameBorder = '0';
             iframe.width = '300';
             iframe.height = '48';
-            iframe.src = iframeSrc;
+            iframe.src = iframeSrc + additionalQueries;
             iframe.sandbox = 'allow-scripts allow-popups allow-same-origin allow-forms allow-modals';
 
             const el = document.querySelector(cssSelector);
@@ -76,7 +81,8 @@ export class Widget {
                 rpcCall.respond(
                     this._widgetIframe.contentWindow,
                     this._settings.widgetUrl,
-                    { verificationMessage: this._verificationMessage,
+                    {   
+                        verificationMessage: this._verificationMessage,
                         buttonStyle : this._buttonStyle,
                         testMode: this._testMode,
                         isMnemonicScreen: this._isMnemonicScreen,
