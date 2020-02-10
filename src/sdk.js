@@ -53,6 +53,14 @@ export class Widget {
 
     }
 
+    webAuthFlowSignIn() {
+        return this._widgetRpc.call('webAuthFlowSignIn');
+    }
+
+    webAuthFlowSignUp() {
+        return this._widgetRpc.call('webAuthFlowSignUp');
+    }
+
     insertLoginButton(cssSelector) {
         if (this._testMode) {
             this._baseNodeApi = new DummyBASENodeAPI(this._widgetRpc);
