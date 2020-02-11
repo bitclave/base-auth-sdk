@@ -53,12 +53,12 @@ export class Widget {
 
     }
 
-    webAuthFlowSignIn() {
-        return this._widgetRpc.call('webAuthFlowSignIn');
+    getAuthUrl(type) {
+        return this._widgetRpc.call('getAuthUrl', [type]);
     }
 
-    webAuthFlowSignUp() {
-        return this._widgetRpc.call('webAuthFlowSignUp');
+    authByToken(token) {
+        return this._widgetRpc.call('authByToken', [token]);
     }
 
     insertLoginButton(cssSelector) {
