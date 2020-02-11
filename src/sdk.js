@@ -54,11 +54,11 @@ export class Widget {
     }
 
     getAuthUrl(type) {
-        return this._widgetRpc.call('getAuthUrl', [type]);
+        return this._widgetRpc.call('getAuthUrl', [type]).then(event => event.value);
     }
 
     authByToken(token) {
-        return this._widgetRpc.call('authByToken', [token]);
+        return this._widgetRpc.call('authByToken', [token]).then(event => event.value);
     }
 
     insertLoginButton(cssSelector) {
